@@ -14,7 +14,7 @@ import (
 var addr = flag.String("listen-address", ":8080", "The address to listen on for HTTP requests.")
 
 func printPrometheus(w http.ResponseWriter, r *http.Request) {
-	c,_ := cpu.Times(false)
+	c, _ := cpu.Times(false)
 
 	var buff bytes.Buffer
 	delimEncoder := NewEncoder(&buff, FmtText)
@@ -23,9 +23,9 @@ func printPrometheus(w http.ResponseWriter, r *http.Request) {
 		Type: dto.MetricType_GAUGE.Enum(),
 		Metric: []*dto.Metric{
 			{
-				Label: []*dto.LabelPair {
+				Label: []*dto.LabelPair{
 					{
-						Name: proto.String("type"),
+						Name:  proto.String("type"),
 						Value: proto.String("user"),
 					},
 				},
@@ -43,9 +43,9 @@ func printPrometheus(w http.ResponseWriter, r *http.Request) {
 		Type: dto.MetricType_GAUGE.Enum(),
 		Metric: []*dto.Metric{
 			{
-				Label: []*dto.LabelPair {
+				Label: []*dto.LabelPair{
 					{
-						Name: proto.String("type"),
+						Name:  proto.String("type"),
 						Value: proto.String("system"),
 					},
 				},
@@ -62,7 +62,7 @@ func printPrometheus(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	flag.Parse()
-	http.HandleFunc("/metrics",printPrometheus)
+	http.HandleFunc("/metrics", printPrometheus)
 	//http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
